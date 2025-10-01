@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-8 mt-10 rounded-xl shadow-lg text-center">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">ยืนยันการลบ</h1>
+    <p class="text-gray-600 mb-6">
+        คุณแน่ใจหรือไม่ว่าต้องการลบบริการ "{{ object.service_name }}" ?
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="flex justify-center space-x-4">
+            <button type="submit" class="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">ยืนยันการลบ</button>
+            <a href="{% url 'service_list' %}" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition">ยกเลิก</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

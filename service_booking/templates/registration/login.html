@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="flex items-center justify-center w-full h-full"> 
+    <div class="max-w-md w-full bg-white p-8 rounded-xl shadow-lg">
+        <h2 class="text-3xl font-bold mb-6 text-center text-gray-800">เข้าสู่ระบบ</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="space-y-4">
+                <div>
+                    <label for="id_username" class="block text-sm font-medium text-gray-700">ชื่อผู้ใช้</label>
+                    <input type="text" name="username" id="id_username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                <div>
+                    <label for="id_password" class="block text-sm font-medium text-gray-700">รหัสผ่าน</label>
+                    <input type="password" name="password" id="id_password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+            </div>
+            <button type="submit" class="w-full mt-6 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition duration-300">เข้าสู่ระบบ</button>
+        </form>
+        <p class="text-center mt-4 text-sm">
+            <a href="#" class="text-blue-600 hover:underline">ลืมรหัสผ่าน?</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
