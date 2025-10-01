@@ -82,7 +82,7 @@
                                 name="{{ field.name }}"
                                 id="{{ field.id_for_label }}"
                                 {% if field.field.required %}required{% endif %}
-                                class="block w-full pl-10 pr-3 py-3 border {% if field.errors %}border-red-300{% else %}border-gray-300{% endif %} rounded-lg focus:outline-none focus:ring-2 {% if field.errors %}focus:ring-red-500{% else %}focus:ring-indigo-500{% endif %} focus:border-transparent transition duration-200"
+                                class="block w-full pl-10 pr-3 py-3 border {% if field.errors %}border-red-300{% else %}border-gray-300{% endif %} rounded-lg focus:outline-none focus:ring-2 {% if field.errors %}focus:ring-red-500{% else %}focus:ring-indigo-500{% endif %} focus:border-transparent text-black transition duration-200"
                                 placeholder="{{ field.label }}"
                                 {% if field.value %}value="{{ field.value }}"{% endif %}
                             >

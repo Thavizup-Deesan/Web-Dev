@@ -1,95 +1,54 @@
+//homepage.html
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main class="py-12 px-4 min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
-  <div class="max-w-6xl mx-auto">
-    <!-- Hero Section -->
-    <div class="relative bg-gradient-to-br from-blue-600 to-blue-700 shadow-2xl rounded-2xl overflow-hidden text-white">
-      
-      <!-- Background Image (optional - ถ้าต้องการใช้รูป) -->
-      <div class="absolute inset-0 opacity-20">
-        <img src="{% static 'images/hero-bg.jpg' %}" alt="" class="w-full h-full object-cover">
-      </div>
-      
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-600/20 to-purple-600/20"></div>
-      
-      <!-- Decorative Elements -->
-      <div class="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-      <div class="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -ml-48 -mb-48 blur-3xl"></div>
-
-      <div class="relative z-10 px-6 py-16 sm:px-12 sm:py-24 lg:py-32">
-        <div class="max-w-4xl mx-auto text-center">
-          <!-- Main Heading -->
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight tracking-tight mb-6">
-            เชื่อมต่อและแบ่งปัน<br />
-            <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-100 to-white">
-              โลกของคุณได้อย่างราบรื่น
-            </span>
-          </h1>
-          
-          <!-- Description -->
-          <p class="mt-6 text-lg md:text-xl text-blue-50 max-w-3xl mx-auto leading-relaxed">
-            จัดการการจองคิวของคุณได้ง่ายๆ ไม่ว่าคุณจะเป็นลูกค้าหรือผู้ดูแลระบบ<br class="hidden sm:block" />
-            ทุกอย่างครบจบในที่เดียว
-          </p>
-          
-          <!-- CTA Button -->
-          <div class="mt-10">
-            {% if user.is_authenticated %}
-            <a href="{% url 'book_service' %}" class="group relative inline-flex items-center gap-3 px-10 py-4 bg-white text-blue-600 font-bold text-lg rounded-xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
-              <span>เริ่มต้นใช้งาน</span>
-              <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-              </svg>
-            </a>
-            {% else %}
-            <a href="{% url 'login' %}" class="group relative inline-flex items-center gap-3 px-10 py-4 bg-white text-blue-600 font-bold text-lg rounded-xl shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 transform hover:scale-105 hover:-translate-y-1">
-              <span>เริ่มต้นใช้งาน</span>
-              <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
-              </svg>
-            </a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Feature Cards -->
-    <div class="grid md:grid-cols-3 gap-8 mt-16">
-      <!-- Card 1 -->
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-        <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+<section class="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-white">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Hero Content -->
+      <div class="space-y-8">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full">
+          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
+          <span class="text-sm font-semibold text-indigo-600">ระบบจองคิวออนไลน์</span>
         </div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">จองง่าย รวดเร็ว</h3>
-        <p class="text-gray-600">จัดการคิวของคุณได้ทุกที่ทุกเวลา ผ่านระบบที่ใช้งานง่าย</p>
-      </div>
 
-      <!-- Card 2 -->
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-        <div class="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-          <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
-        </div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">ปลอดภัย เชื่อถือได้</h3>
-        <p class="text-gray-600">ข้อมูลของคุณได้รับการปกป้องด้วยระบบรักษาความปลอดภัยชั้นสูง</p>
-      </div>
+        <!-- Main Heading -->
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
+          เชื่อมต่อและแบ่งปัน<br />
+          <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+            โลกของคุณได้อย่างราบรื่น
+          </span>
+        </h1>
 
-      <!-- Card 3 -->
-      <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-xl transition-shadow duration-300">
-        <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-          <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-          </svg>
+        <!-- Description -->
+        <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          จัดการการจองคิวของคุณได้ง่ายๆ ไม่ว่าคุณจะเป็นลูกค้าหรือผู้ดูแลระบบ<br class="hidden sm:block" />
+          ทุกอย่างครบจบในที่เดียว
+        </p>
+
+        <!-- CTA Button -->
+        <div class="pt-4">
+          {% if user.is_authenticated %}
+          <a href="{% url 'book_service' %}" class="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+            <span>เริ่มต้นใช้งาน</span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+          {% else %}
+          <a href="{% url 'login' %}" class="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+            <span>เริ่มต้นใช้งาน</span>
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+            </svg>
+          </a>
+          {% endif %}
         </div>
-        <h3 class="text-xl font-bold text-gray-800 mb-2">ทันสมัย ทันใจ</h3>
-        <p class="text-gray-600">อัพเดทสถานะการจองแบบเรียลไทม์ ไม่พลาดทุกการแจ้งเตือน</p>
       </div>
     </div>
   </div>
-</main>
+</section>
 {% endblock content %}
