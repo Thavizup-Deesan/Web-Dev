@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-gray-50">
+    <div class="container mx-auto px-4 py-16">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800">เลือกโต๊ะที่คุณต้องการ</h1>
+            <p class="text-lg text-gray-600 mt-4">ดูรายละเอียดและเลือกจองโต๊ะที่เหมาะกับคุณได้เลย</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for table in tables %}
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-2 transition-all duration-300">
+                <div class="p-6 flex-grow">
+                    <div class="flex justify-between items-start">
+                        <h2 class="text-2xl font-bold text-gray-900">โต๊ะ {{ table.table_number }}</h2>
+                        {% if table.is_outdoor %}
+                            <span class="px-3 py-1 text-xs font-semibold text-green-800 bg-green-200 rounded-full">Outdoor</span>
+                        {% else %}
+                            <span class="px-3 py-1 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">Indoor</span>
+                        {% endif %}
+                    </div>
+                    <p class="text-gray-600 mt-2"><span class="font-semibold">{{ table.capacity }}</span> ที่นั่ง</p>
+                    <p class="text-gray-500 text-sm mt-4 min-h-[40px]">
+                        {{ table.description|default:"ไม่มีรายละเอียดเพิ่มเติม" }}
+                    </p>
+                </div>
+                <div class="bg-gray-50 p-4">
+                    <a href="{% url 'booking_create' %}?table={{ table.pk }}" class="block w-full text-center px-4 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200">
+                        จองโต๊ะนี้
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-gray-500 col-span-full">ขออภัย ขณะนี้ยังไม่มีโต๊ะในระบบ</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

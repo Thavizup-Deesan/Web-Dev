@@ -5,7 +5,7 @@ from .models import Booking, Table
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['table', 'booking_datetime', 'notes'] # เปลี่ยนจาก service เป็น table
+        fields = ['table', 'booking_datetime', 'notes']
         widgets = {
             'table': forms.Select(attrs={'class': 'block w-full px-3 py-3 border border-gray-300 rounded-lg'}),
             'booking_datetime': forms.DateTimeInput(
@@ -19,14 +19,13 @@ class BookingForm(forms.ModelForm):
             'notes': 'หมายเหตุ',
         }
 
-    # เพิ่มการ validation เพื่อป้องกันการจองซ้ำ และให้ feedback ที่ดีกับผู้ใช้
     def clean(self):
         cleaned_data = super().clean()
         table = cleaned_data.get("table")
         booking_datetime = cleaned_data.get("booking_datetime")
 
         if table and booking_datetime:
-            # ไม่นับตัวเองในกรณีที่เป็นการแก้ไข
+
             queryset = Booking.objects.filter(table=table, booking_datetime=booking_datetime)
             if self.instance.pk:
                 queryset = queryset.exclude(pk=self.instance.pk)

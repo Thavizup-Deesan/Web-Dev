@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.shortcuts import redirect
-from .models import Table, Booking  # เปลี่ยนจาก Service เป็น Table
+from .models import Table, Booking
 from .forms import BookingForm, TableForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
@@ -21,35 +21,46 @@ class HomeView(TemplateView):
     template_name = 'homepage.html'
     context_object_name = 'tables'
 
-# --- Admin Views (จัดการโต๊ะ) ---
+class TableBrowseView(ListView):
+    model = Table
+    template_name = 'services/table_browse.html'
+    context_object_name = 'tables'
+    ordering = ['table_number']
+
 class TableListView(AdminRequiredMixin, ListView):
     model = Table
-    template_name = 'services/table_list.html' # เปลี่ยนชื่อ template
+    template_name = 'services/table_list.html'
     context_object_name = 'tables'
 
 class TableCreateView(AdminRequiredMixin, CreateView):
     model = Table
     form_class = TableForm
-    template_name = 'services/table_form.html' # เปลี่ยนชื่อ template
+    template_name = 'services/table_form.html'
     success_url = reverse_lazy('table_list')
 
 class TableUpdateView(AdminRequiredMixin, UpdateView):
     model = Table
-    form_class = TableForm # เปลี่ยน fields
-    template_name = 'services/table_form.html' # เปลี่ยนชื่อ template
+    form_class = TableForm
+    template_name = 'services/table_form.html'
     success_url = reverse_lazy('table_list')
 
 class TableDeleteView(AdminRequiredMixin, DeleteView):
     model = Table
-    template_name = 'services/table_confirm_delete.html' # เปลี่ยนชื่อ template
+    template_name = 'services/table_confirm_delete.html'
     success_url = reverse_lazy('table_list')
 
-# --- User Views (จัดการการจอง) ---
 class BookingCreateView(LoginRequiredMixin, CreateView):
     model = Booking
     form_class = BookingForm
     template_name = 'services/booking_form.html'
     success_url = reverse_lazy('booking_success')
+
+    def get_initial(self):
+        initial = super().get_initial()
+        table_id = self.request.GET.get('table')
+        if table_id:
+            initial['table'] = table_id
+        return initial
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -67,7 +78,6 @@ class BookingHistoryView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Booking.objects.filter(user=self.request.user)
 
-# --- เพิ่ม View สำหรับแก้ไขและยกเลิก ---
 class BookingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Booking
     form_class = BookingForm
@@ -97,21 +107,17 @@ class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class AdminLoginView(LoginView):
     template_name = 'registration/admin_login.html'
-    redirect_authenticated_user = True # ถ้าล็อกอินอยู่แล้ว ให้ไปหน้า dashboard เลย
+    redirect_authenticated_user = True 
 
     def get_success_url(self):
-        # หลังล็อกอินสำเร็จ ให้ไปที่หน้า admin_dashboard
         return reverse_lazy('admin_dashboard')
 
     def form_valid(self, form):
-        # ตรวจสอบ user ก่อนที่จะล็อกอิน
         user = form.get_user()
         if user.role == 'admin' or user.is_superuser:
-            # ถ้าเป็น admin ให้ล็อกอินตามปกติ
             messages.success(self.request, f"ยินดีต้อนรับกลับมา, {user.username}!")
             return super().form_valid(form)
         else:
-            # ถ้าไม่ใช่ admin ให้แสดง error และไม่ให้ล็อกอิน
             messages.error(self.request, "บัญชีนี้ไม่มีสิทธิ์เข้าถึงส่วนผู้ดูแลระบบ")
             return self.form_invalid(form)
 
@@ -120,7 +126,6 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # ดึงข้อมูลการจองที่ยืนยันแล้ว และเป็นของวันนี้หรือในอนาคต
         today = timezone.now().date()
         context['bookings'] = Booking.objects.filter(
             status='confirmed',
