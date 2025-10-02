@@ -26,11 +26,6 @@
             <a href="{% url 'booking_history' %}" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-200">
               ประวัติการจอง
             </a>
-            {% if user.role == 'admin' or user.is_superuser %}
-            <a href="{% url 'service_list' %}" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-200">
-              จัดการบริการ
-            </a>
-            {% endif %}
             {% endif %}
           </div>
 
@@ -39,7 +34,7 @@
             <span class="text-gray-700 hidden sm:inline font-medium">
               สวัสดี, {{ user.username }}
             </span>
-            <form action="{% url 'login' %}" method="post">
+            <form action="{% url 'logout' %}" method="post">
               {% csrf_token %}
               <button type="submit" class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg hover:bg-red-600 transition duration-200">
                 ออกจากระบบ

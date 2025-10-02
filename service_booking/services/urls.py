@@ -13,10 +13,14 @@ from .views import (
     BookingHistoryView,
     BookingUpdateView,
     BookingDeleteView,
+    AdminDashboardView,
 )
 
 urlpatterns = [
     path('', HomeView.as_view(), name='homepage'),
+
+    path('manage/dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
+    path('manage/tables/', TableListView.as_view(), name='table_list'),
 
     # URL สำหรับ Admin จัดการโต๊ะ
     path('manage/tables/', TableListView.as_view(), name='table_list'),

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
 ]
 
 LOGIN_REDIRECT_URL = 'booking_create'
+LOGOUT_REDIRECT_URL = 'homepage'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 

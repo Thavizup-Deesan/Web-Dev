@@ -8,10 +8,15 @@ from accounts.models import CustomUser
 class Table(models.Model):
     table_number = models.CharField(max_length=50, unique=True)
     capacity = models.PositiveIntegerField(help_text="จำนวนที่นั่ง")
+    
+    # เพิ่มฟิลด์ is_outdoor
+    is_outdoor = models.BooleanField(default=False, help_text="ติ๊กถ้าเป็นโต๊ะโซน Outdoor")
+    
     description = models.TextField(blank=True, null=True, help_text="รายละเอียดเพิ่มเติม เช่น 'โต๊ะริมหน้าต่าง'")
 
     def __str__(self):
-        return f"โต๊ะ {self.table_number} ({self.capacity} ที่นั่ง)"
+        zone = "Outdoor" if self.is_outdoor else "Indoor"
+        return f"โต๊ะ {self.table_number} ({self.capacity} ที่นั่ง, โซน {zone})"
 
 # 2. ปรับแก้ Booking Model
 class Booking(models.Model):

@@ -7,6 +7,7 @@ from .models import Table, Booking  # เปลี่ยนจาก Service เ
 from .forms import BookingForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
+from django.utils import timezone
 
 class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
@@ -23,13 +24,13 @@ class TableListView(AdminRequiredMixin, ListView):
 
 class TableCreateView(AdminRequiredMixin, CreateView):
     model = Table
-    fields = ['table_number', 'capacity', 'description'] # เปลี่ยน fields
+    fields = ['table_number', 'capacity','is_outdoor', 'description'] # เปลี่ยน fields
     template_name = 'services/table_form.html' # เปลี่ยนชื่อ template
     success_url = reverse_lazy('table_list')
 
 class TableUpdateView(AdminRequiredMixin, UpdateView):
     model = Table
-    fields = ['table_number', 'capacity', 'description'] # เปลี่ยน fields
+    fields = ['table_number', 'capacity', 'is_outdoor', 'description'] # เปลี่ยน fields
     template_name = 'services/table_form.html' # เปลี่ยนชื่อ template
     success_url = reverse_lazy('table_list')
 
@@ -88,3 +89,16 @@ class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         messages.error(self.request, "คุณไม่สามารถยกเลิกการจองนี้ได้ (อาจจะเลยเวลาที่กำหนด)")
         return redirect('booking_history')
+    
+class AdminDashboardView(AdminRequiredMixin, TemplateView):
+    template_name = 'services/admin_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # ดึงข้อมูลการจองที่ยืนยันแล้ว และเป็นของวันนี้หรือในอนาคต
+        today = timezone.now().date()
+        context['bookings'] = Booking.objects.filter(
+            status='confirmed',
+            booking_datetime__gte=today
+        ).order_by('booking_datetime')
+        return context
