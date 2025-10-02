@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center px-4 py-12 bg-gray-50">
+    <div class="max-w-lg w-full bg-white p-8 rounded-2xl shadow-lg text-center">
+        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        </div>
+
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">ยืนยันการลบโต๊ะ</h2>
+        
+        <p class="text-gray-600 mb-6">
+            คุณแน่ใจหรือไม่ว่าต้องการลบ <strong class="text-gray-900">{{ object }}</strong>?
+            <br>
+            <span class="text-sm text-red-600">การกระทำนี้ไม่สามารถย้อนกลับได้</span>
+        </p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="flex justify-center items-center space-x-4">
+                <button 
+                    type="submit" 
+                    class="px-8 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition duration-200"
+                >
+                    ใช่, ยืนยันการลบ
+                </button>
+                
+                <a 
+                    href="{% url 'table_list' %}" 
+                    class="px-8 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition duration-200"
+                >
+                    ไม่, กลับไป
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

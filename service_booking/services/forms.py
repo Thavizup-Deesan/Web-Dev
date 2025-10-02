@@ -1,6 +1,6 @@
 # services/forms.py
 from django import forms
-from .models import Booking
+from .models import Booking, Table
 
 class BookingForm(forms.ModelForm):
     class Meta:
@@ -35,3 +35,29 @@ class BookingForm(forms.ModelForm):
                 raise forms.ValidationError("โต๊ะนี้ถูกจองแล้วในเวลาที่คุณเลือก กรุณาเลือกเวลาอื่น")
         
         return cleaned_data
+    
+class TableForm(forms.ModelForm):
+    class Meta:
+        model = Table
+        fields = ['table_number', 'capacity', 'is_outdoor', 'description']
+        widgets = {
+            'table_number': forms.TextInput(attrs={
+                'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500'
+            }),
+            'capacity': forms.NumberInput(attrs={
+                'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500'
+            }),
+            'is_outdoor': forms.CheckboxInput(attrs={
+                'class': 'h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500'
+            }),
+            'description': forms.Textarea(attrs={
+                'rows': 4,
+                'class': 'block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500'
+            }),
+        }
+        labels = {
+            'table_number': 'หมายเลขโต๊ะ',
+            'capacity': 'จำนวนที่นั่ง',
+            'is_outdoor': 'เป็นโต๊ะโซน Outdoor',
+            'description': 'รายละเอียดเพิ่มเติม',
+        }

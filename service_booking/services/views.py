@@ -1,20 +1,25 @@
 # services/views.py
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
+from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.shortcuts import redirect
 from .models import Table, Booking  # เปลี่ยนจาก Service เป็น Table
-from .forms import BookingForm
+from .forms import BookingForm, TableForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
 from django.utils import timezone
 
 class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
+    login_url = 'admin_login'
+
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.role == 'admin'
 
 class HomeView(TemplateView):
+    model = Table
     template_name = 'homepage.html'
+    context_object_name = 'tables'
 
 # --- Admin Views (จัดการโต๊ะ) ---
 class TableListView(AdminRequiredMixin, ListView):
@@ -24,13 +29,13 @@ class TableListView(AdminRequiredMixin, ListView):
 
 class TableCreateView(AdminRequiredMixin, CreateView):
     model = Table
-    fields = ['table_number', 'capacity','is_outdoor', 'description'] # เปลี่ยน fields
+    form_class = TableForm
     template_name = 'services/table_form.html' # เปลี่ยนชื่อ template
     success_url = reverse_lazy('table_list')
 
 class TableUpdateView(AdminRequiredMixin, UpdateView):
     model = Table
-    fields = ['table_number', 'capacity', 'is_outdoor', 'description'] # เปลี่ยน fields
+    form_class = TableForm # เปลี่ยน fields
     template_name = 'services/table_form.html' # เปลี่ยนชื่อ template
     success_url = reverse_lazy('table_list')
 
@@ -79,7 +84,7 @@ class BookingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Booking
-    template_name = 'services/booking_confirm_delete.html'
+    template_name = 'services/booking_cancel.html'
     success_url = reverse_lazy('booking_history')
 
     def test_func(self):
@@ -89,7 +94,27 @@ class BookingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         messages.error(self.request, "คุณไม่สามารถยกเลิกการจองนี้ได้ (อาจจะเลยเวลาที่กำหนด)")
         return redirect('booking_history')
-    
+
+class AdminLoginView(LoginView):
+    template_name = 'registration/admin_login.html'
+    redirect_authenticated_user = True # ถ้าล็อกอินอยู่แล้ว ให้ไปหน้า dashboard เลย
+
+    def get_success_url(self):
+        # หลังล็อกอินสำเร็จ ให้ไปที่หน้า admin_dashboard
+        return reverse_lazy('admin_dashboard')
+
+    def form_valid(self, form):
+        # ตรวจสอบ user ก่อนที่จะล็อกอิน
+        user = form.get_user()
+        if user.role == 'admin' or user.is_superuser:
+            # ถ้าเป็น admin ให้ล็อกอินตามปกติ
+            messages.success(self.request, f"ยินดีต้อนรับกลับมา, {user.username}!")
+            return super().form_valid(form)
+        else:
+            # ถ้าไม่ใช่ admin ให้แสดง error และไม่ให้ล็อกอิน
+            messages.error(self.request, "บัญชีนี้ไม่มีสิทธิ์เข้าถึงส่วนผู้ดูแลระบบ")
+            return self.form_invalid(form)
+
 class AdminDashboardView(AdminRequiredMixin, TemplateView):
     template_name = 'services/admin_dashboard.html'
 
@@ -102,3 +127,4 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
             booking_datetime__gte=today
         ).order_by('booking_datetime')
         return context
+    

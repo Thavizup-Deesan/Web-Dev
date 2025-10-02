@@ -1,6 +1,7 @@
 # services/urls.py
 from django.urls import path
 from .views import (
+    AdminLoginView,
     HomeView,
     # Admin Views
     TableListView,
@@ -19,8 +20,8 @@ from .views import (
 urlpatterns = [
     path('', HomeView.as_view(), name='homepage'),
 
+    path('manage/login/', AdminLoginView.as_view(), name='admin_login'),
     path('manage/dashboard/', AdminDashboardView.as_view(), name='admin_dashboard'),
-    path('manage/tables/', TableListView.as_view(), name='table_list'),
 
     # URL สำหรับ Admin จัดการโต๊ะ
     path('manage/tables/', TableListView.as_view(), name='table_list'),
@@ -33,5 +34,5 @@ urlpatterns = [
     path('booking/success/', BookingSuccessView.as_view(), name='booking_success'),
     path('booking/history/', BookingHistoryView.as_view(), name='booking_history'),
     path('booking/<int:pk>/edit/', BookingUpdateView.as_view(), name='booking_update'),
-    path('booking/<int:pk>/cancel/', BookingDeleteView.as_view(), name='booking_cancel'), # ใช้ BookingDeleteView
+    path('booking/<int:pk>/cancel/', BookingDeleteView.as_view(), name='booking_cancel'), 
 ]
