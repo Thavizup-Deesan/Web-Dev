@@ -1,0 +1,63 @@
+{# templates/services/booking_history.html #}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-gray-800 mb-8 border-b pb-4">
+        ประวัติการจองของคุณ
+    </h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mb-4 p-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if bookings %}
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <table class="min-w-full leading-normal">
+                <thead>
+                    <tr class="bg-gray-100 text-left text-gray-600 uppercase text-sm">
+                        <th class="py-3 px-5">โต๊ะที่จอง</th>
+                        <th class="py-3 px-5">วันที่และเวลา</th>
+                        <th class="py-3 px-5">สถานะ</th>
+                        <th class="py-3 px-5">การจัดการ</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    {% for booking in bookings %}
+                    <tr class="border-b border-gray-200 hover:bg-gray-50">
+                        <td class="py-4 px-5">{{ booking.table }}</td>
+                        <td class="py-4 px-5">{{ booking.booking_datetime|date:"d M Y, H:i" }} น.</td>
+                        <td class="py-4 px-5">
+                            {% if booking.status == 'confirmed' %}
+                                <span class="px-3 py-1 text-sm font-semibold text-green-800 bg-green-200 rounded-full">ยืนยันแล้ว</span>
+                            {% else %}
+                                <span class="px-3 py-1 text-sm font-semibold text-red-800 bg-red-200 rounded-full">ยกเลิกแล้ว</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-4 px-5 text-sm font-medium">
+                            {% if booking.status == 'confirmed' and booking.can_be_modified %}
+                                <a href="{% url 'booking_update' booking.pk %}" class="text-indigo-600 hover:text-indigo-900">แก้ไข</a>
+                                <a href="{% url 'booking_cancel' booking.pk %}" class="text-red-600 hover:text-red-900 ml-4">ยกเลิก</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center bg-gray-50 p-10 rounded-lg">
+            <p class="text-gray-600 text-lg">คุณยังไม่มีประวัติการจอง</p>
+            <a href="{% url 'booking_create' %}" class="mt-4 inline-block bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition">
+                เริ่มจองโต๊ะเลย
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+<div class="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
     <h1 class="text-3xl font-bold mb-6 text-gray-800">
         {% if object %}
-            แก้ไขบริการ
+            แก้ไขโต๊ะ
         {% else %}
-            เพิ่มบริการใหม่
+            เพิ่มโต๊ะใหม่
         {% endif %}
     </h1>
     <form method="post">
@@ -19,10 +19,10 @@
                 {% if object %}
                     บันทึกการเปลี่ยนแปลง
                 {% else %}
-                    สร้างบริการ
+                    สร้างโต๊ะ
                 {% endif %}
             </button>
-            <a href="{% url 'service_list' %}" class="text-gray-600 hover:text-gray-900">ยกเลิก</a>
+            <a href="{% url 'table_list' %}" class="text-gray-600 hover:text-gray-900">ยกเลิก</a>
         </div>
     </form>
 </div>
