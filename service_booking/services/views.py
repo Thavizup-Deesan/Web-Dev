@@ -18,7 +18,7 @@ class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.role == 'admin'
 
-class HomeView(TemplateView):
+class HomeView(ListView):
     model = Table
     template_name = 'homepage.html'
     context_object_name = 'tables'

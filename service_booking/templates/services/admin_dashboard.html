@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="container mx-auto px-4 py-12">
     <div class="flex justify-between items-center mb-8 border-b pb-4">
         <h1 class="text-4xl font-bold text-gray-800">แอดมินแดชบอร์ด</h1>
-        <a href="{% url 'table_list' %}" class="px-5 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+        <a href="{% url 'table_list' %}" class="px-5 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition">
             จัดการโต๊ะทั้งหมด
         </a>
     </div>

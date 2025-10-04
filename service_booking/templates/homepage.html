@@ -6,15 +6,15 @@
     <div class="max-w-4xl mx-auto text-center">
       <div class="space-y-8">
         <div class="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 rounded-full">
-          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
-          <span class="text-sm font-semibold text-indigo-600">ระบบจองโต๊ะออนไลน์</span>
+          <span class="text-sm font-semibold text-green-600">ระบบจองโต๊ะออนไลน์</span>
         </div>
 
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight">
           ยินดีต้อนรับสู่<br>ริกเตอร์กินแซ่บโภชนา<br />
-          <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <span class="bg-gradient-to-r from-green-600 to-green-600 bg-clip-text text-transparent">
             จองโต๊ะอาหารเราได้ง่ายๆ<br>นะตัวเธอ
           </span>
         </h1>
@@ -25,14 +25,14 @@
 
         <div class="pt-4">
           {% if user.is_authenticated %}
-          <a href="{% url 'table_browse' %}" class="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <a href="{% url 'table_browse' %}" class="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-green-600 to-green-600 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl hover:from-green-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105">
             <span>เริ่มต้นใช้งาน</span>
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
             </svg>
           </a>
           {% else %}
-          <a href="{% url 'login' %}" class="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105">
+          <a href="{% url 'login' %}" class="group inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-green-600 to-green-600 text-white font-bold text-lg rounded-xl shadow-xl hover:shadow-2xl hover:from-green-700 hover:to-green-700 transition-all duration-300 transform hover:scale-105">
             <span>เริ่มต้นใช้งาน</span>
             <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>

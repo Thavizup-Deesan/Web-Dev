@@ -12,41 +12,53 @@
       <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center">
-            <a href="/" class="text-xl font-bold text-gray-800 hover:text-indigo-600 transition duration-200">
+            <a href="/" class="text-xl font-bold text-gray-800 hover:text-green-600 transition duration-200">
               ริกเตอร์กินแซ่บโภชนา
             </a>
           </div>
 
           <div class="hidden md:flex items-center space-x-6">
             {% if user.role == 'customer' and not user.is_superuser %}
-            <a href="{% url 'table_browse' %}" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-200">
+            <a href="{% url 'table_browse' %}" class="text-gray-600 hover:text-green-600 font-medium transition duration-200">
                  ดูโต๊ะทั้งหมด
              </a>
-            <a href="{% url 'booking_create' %}" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-200">
+            <a href="{% url 'booking_create' %}" class="text-gray-600 hover:text-green-600 font-medium transition duration-200">
               จองโต๊ะอาหาร
             </a>
-            <a href="{% url 'booking_history' %}" class="text-gray-600 hover:text-indigo-600 font-medium transition duration-200">
+            <a href="{% url 'booking_history' %}" class="text-gray-600 hover:text-green-600 font-medium transition duration-200">
               ประวัติการจอง
+            </a>
+            {% endif %}
+
+            {% if user.role == 'admin' or user.is_superuser %}
+            <a href="{% url 'admin_dashboard' %}" class="text-gray-600 hover:text-green-600 font-medium transition duration-200">
+              การจองโต๊ะทั้งหมด
+             </a>
+            <a href="{% url 'table_list' %}" class="text-gray-600 hover:text-green-600 font-medium transition duration-200">
+              จัดการโต๊ะ
+            </a>
+            <a href="{% url 'table_create' %}" class="text-gray-600 hover:text-green-600 font-medium transition duration-200">
+              เพิ่มโต๊ะใหม่
             </a>
             {% endif %}
           </div>
 
           <div class="flex items-center space-x-3">
             {% if user.is_authenticated %}
-            <a href="{% url 'profile' %}" class="text-gray-700 hidden sm:inline font-medium hover:text-indigo-600">
+            <a href="{% url 'profile' %}" class="text-gray-700 hidden sm:inline font-medium hover:text-green-600">
               <span>สวัสดี, {{ user.username }}</span>
             </a>
             <form action="{% url 'logout' %}" method="post">
               {% csrf_token %}
-              <button type="submit" class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg hover:bg-red-600 transition duration-200">
+              <button type="submit" class="px-4 py-2 bg-white text-black text-sm font-semibold rounded-lg hover:bg-red-200 transition duration-200">
                 ออกจากระบบ
               </button>
             </form>
             {% else %}
-            <a href="{% url 'login' %}" class="px-4 py-2 text-indigo-600 bg-indigo-50 font-semibold rounded-lg hover:bg-indigo-100 transition duration-200 text-sm">
+            <a href="{% url 'login' %}" class="px-4 py-2 text-green-600 bg-indigo-50 font-semibold rounded-lg hover:bg-green-100 transition duration-200 text-sm">
               เข้าสู่ระบบ
             </a>
-            <a href="{% url 'signup' %}" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition duration-200 text-sm">
+            <a href="{% url 'signup' %}" class="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200 text-sm">
               สมัครสมาชิก
             </a>
             {% endif %}
