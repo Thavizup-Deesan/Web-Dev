@@ -41,5 +41,63 @@
             <p class="text-gray-600 text-lg">ยังไม่มีการจองเข้ามา</p>
         </div>
     {% endif %}
+
+    </br>
+    <div class="grid md:grid-cols-2 gap-10 mb-12">
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-lg font-semibold mb-4 text-black">แนวโน้มการจอง (รายวัน)</h2>
+            <canvas id="bookingLineChart" width="400" height="200"></canvas>
+        </div>
+        <div class="bg-white shadow rounded-lg p-6">
+            <h2 class="text-lg font-semibold mb-4 text-black">สัดส่วนประเภทโต๊ะยอดนิยม</h2>
+            <canvas id="tablePieChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    <script>
+        const lineLabels = {{ line_labels|safe }};
+        const lineData = {{ line_data|safe }};
+        const pieLabels = {{ pie_labels|safe }};
+        const pieValues = {{ pie_values|safe }};
+        new Chart(document.getElementById('bookingLineChart').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: lineLabels,
+                datasets: [{
+                    label: 'จำนวนการจอง',
+                    data: lineData,
+                    borderColor: '#2563eb',
+                    backgroundColor: 'rgba(37,99,235,0.2)',
+                    fill: true,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+        new Chart(document.getElementById('tablePieChart').getContext('2d'), {
+            type: 'pie',
+            data: {
+                labels: pieLabels,
+                datasets: [{
+                    data: pieValues,
+                    backgroundColor: ['#34d399', '#60a5fa', '#fbbf24'],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+    </script>
+
 </div>
 {% endblock %}

@@ -9,6 +9,8 @@ from .forms import BookingForm, TableForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseForbidden
 from django.utils import timezone
+from django.db.models.functions import TruncDate
+from django.db.models import Count
 
 class AdminRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
     login_url = 'admin_login'
@@ -131,5 +133,24 @@ class AdminDashboardView(AdminRequiredMixin, TemplateView):
             status='confirmed',
             booking_datetime__gte=today
         ).order_by('booking_datetime')
+
+        bookings_daily = Booking.objects.filter(status='confirmed') \
+            .annotate(day=TruncDate('booking_datetime')) \
+            .values('day') \
+            .annotate(count=Count('id')) \
+            .order_by('day')
+        line_labels = [b['day'].strftime('%Y-%m-%d') for b in bookings_daily]
+        line_data = [b['count'] for b in bookings_daily]
+        context['line_labels'] = line_labels
+        context['line_data'] = line_data
+
+        pie_data = Booking.objects.filter(status='confirmed') \
+            .values('table__is_outdoor') \
+            .annotate(count=Count('id'))
+        pie_labels = ["Outdoor" if p['table__is_outdoor'] else "Indoor" for p in pie_data]
+        pie_values = [p['count'] for p in pie_data]
+        context['pie_labels'] = pie_labels
+        context['pie_values'] = pie_values
+
         return context
     

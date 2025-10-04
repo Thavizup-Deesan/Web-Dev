@@ -12,6 +12,14 @@ class Table(models.Model):
     
     description = models.TextField(blank=True, null=True, help_text="รายละเอียดเพิ่มเติม เช่น 'โต๊ะริมหน้าต่าง'")
 
+    image = models.ImageField(
+        upload_to='table_images/', 
+        blank=True, 
+        null=True, 
+        help_text="รูปภาพโต๊ะ"
+    )
+
+
     def __str__(self):
         zone = "Outdoor" if self.is_outdoor else "Indoor"
         return f"โต๊ะ {self.table_number} ({self.capacity} ที่นั่ง, โซน {zone})"

@@ -33,9 +33,9 @@
 
           <div class="flex items-center space-x-3">
             {% if user.is_authenticated %}
-            <span class="text-gray-700 hidden sm:inline font-medium">
-              สวัสดี, {{ user.username }}
-            </span>
+            <a href="{% url 'profile' %}" class="text-gray-700 hidden sm:inline font-medium hover:text-indigo-600">
+              <span>สวัสดี, {{ user.username }}</span>
+            </a>
             <form action="{% url 'logout' %}" method="post">
               {% csrf_token %}
               <button type="submit" class="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-lg hover:bg-red-600 transition duration-200">

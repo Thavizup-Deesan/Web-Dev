@@ -35,6 +35,9 @@ INSTALLED_APPS = [
 LOGIN_REDIRECT_URL = 'table_browse'
 LOGOUT_REDIRECT_URL = 'homepage'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 TAILWIND_APP_NAME = 'theme'

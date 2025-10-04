@@ -11,6 +11,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for table in tables %}
             <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col transform hover:-translate-y-2 transition-all duration-300">
+
+                {% if table.image %}
+                    <img src="{{ table.image.url }}" alt="โต๊ะ {{ table.table_number }}" class="w-full h-48 object-cover">
+                {% else %}
+                    <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-500">ไม่มีรูปภาพ</span>
+                    </div>
+                {% endif %}
+
                 <div class="p-6 flex-grow">
                     <div class="flex justify-between items-start">
                         <h2 class="text-2xl font-bold text-gray-900">โต๊ะ {{ table.table_number }}</h2>
