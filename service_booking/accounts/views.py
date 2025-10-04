@@ -2,8 +2,9 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 from accounts.models import CustomUser
-from accounts.forms import CustomUserChangeForm, CustomUserCreationForm
+from accounts.forms import CustomUserChangeForm, CustomUserCreationForm, MyPasswordResetForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordResetView
 
 class SignUpView(CreateView): 
     form_class = CustomUserCreationForm
@@ -19,4 +20,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         return self.request.user
+    
+class MyCustomPasswordResetView(PasswordResetView):
+    form_class = MyPasswordResetForm
     

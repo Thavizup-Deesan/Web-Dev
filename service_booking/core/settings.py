@@ -38,6 +38,8 @@ LOGOUT_REDIRECT_URL = 'homepage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 TAILWIND_APP_NAME = 'theme'
